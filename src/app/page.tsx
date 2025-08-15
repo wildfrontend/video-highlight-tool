@@ -1,6 +1,6 @@
 import { Box, Container, Grid, Paper, Stack } from '@mui/material';
 
-import PreviewArea from '@/components/video-transcript/preivew/main';
+import PreviewArea from '@/components/video-transcript/preview/main';
 import PanelHeader from '@/components/video-transcript/ui/header';
 
 const Page = () => {
