@@ -91,58 +91,52 @@ const useUploadVideo = () => {
   });
 
   // --- 模擬上傳服務：回傳 blob URL ---
-  const uploadService = useCallback(async (): Promise<string> => {
+  const uploadService = useCallback(async (): Promise<{ videoUrl: string; transcript: any }> => {
     if (!file) throw new Error('No file');
     setError(null);
     setProgress(0);
 
-    // 用計時器模擬進度，完成後產生 blob URL
-    const url = await new Promise<string>((resolve, reject) => {
-      let p = 0;
-      timerRef.current = window.setInterval(() => {
-        p += Math.random() * 18 + 7;
-        if (p >= 100) {
-          p = 100;
-          setProgress(p);
-          if (timerRef.current) {
-            window.clearInterval(timerRef.current);
-            timerRef.current = null;
-          }
-          try {
-            resolve(URL.createObjectURL(file));
-          } catch (e) {
-            reject(e);
-          }
-        } else {
-          setProgress(Math.min(99, Math.floor(p)));
-        }
-      }, 200);
+    // 模擬進度
+    const progressTimer = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 90) return prev;
+        // 先加上隨機增量，再四捨五入成整數
+        return Math.min(90, Math.round(prev + Math.random() * 10));
+      });
+    }, 300);
+
+    const res = await fetch('/api/video/transcripts', {
+      method: 'POST',
     });
+    clearInterval(progressTimer);
 
-    return url;
+    if (!res.ok) throw new Error('API failed');
+    const data = await res.json();
+
+    setProgress(100);
+
+    return {
+      videoUrl: URL.createObjectURL(file), // 本地預覽
+      transcript: data.transcript,
+    };
   }, [file]);
-
   const {
     run: runUpload,
     cancel,
-    loading: isUploading, // 由 useRequest 控制上傳中
+    loading: isUploading,
   } = useRequest(uploadService, {
     manual: true,
-    onSuccess: (url) => {
-      // 釋放舊的 blob，設定新的並進入預覽
+    onSuccess: ({ videoUrl, transcript }) => {
       revokeBlob(blobUrl);
-      setBlobUrl(url);
+      setBlobUrl(videoUrl);
       setPhase('preview');
+
+      // 把 transcript 存到狀態（後面 Editing Area 用）
+      console.log('字幕精華 JSON', transcript);
+      // TODO: setTranscript(transcript)
     },
     onError: (e) => {
       setError(e instanceof Error ? e.message : '上傳失敗');
-    },
-    onFinally: () => {
-      // 確保計時器清掉
-      if (timerRef.current) {
-        window.clearInterval(timerRef.current);
-        timerRef.current = null;
-      }
     },
   });
 
@@ -256,7 +250,7 @@ const UploadVideo: FC = () => {
         <Box sx={{ width: '100%', maxWidth: 640 }}>
           <LinearProgress value={progress} variant="determinate" />
           <Typography color="text.secondary" variant="caption">
-            {progress}%
+            {Math.round(progress)}%
           </Typography>
         </Box>
       )}
