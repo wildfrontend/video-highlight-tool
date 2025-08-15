@@ -1,6 +1,7 @@
 import { Box, Container, Grid, Paper, Stack } from '@mui/material';
 
-import PanelHeader from '@/components/video-transcript/header';
+import PreviewArea from '@/components/video-transcript/preivew/main';
+import PanelHeader from '@/components/video-transcript/ui/header';
 
 const Page = () => {
   return (
@@ -19,7 +20,9 @@ const Page = () => {
         <Grid order={{ xs: 1, lg: 2 }} size={{ xs: 12, lg: 6 }}>
           <Paper component={Stack} height="100%" variant="outlined">
             <PanelHeader title="Preview" />
-            <Box flex={1}></Box>
+            <Box flex={1}>
+              <PreviewArea />
+            </Box>
           </Paper>
         </Grid>
       </Grid>
