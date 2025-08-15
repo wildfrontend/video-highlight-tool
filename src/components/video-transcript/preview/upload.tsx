@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranscriptStore } from '@/stores/transcripts';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {
   Alert,
@@ -32,7 +33,7 @@ const useUploadVideo = () => {
   const [blobUrl, setBlobUrl] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState<number>(0);
-
+  const { setTranscript } = useTranscriptStore();
   const timerRef = useRef<number | null>(null);
 
   const revokeBlob = useCallback((url?: string) => {
@@ -91,7 +92,10 @@ const useUploadVideo = () => {
   });
 
   // --- 模擬上傳服務：回傳 blob URL ---
-  const uploadService = useCallback(async (): Promise<{ videoUrl: string; transcript: any }> => {
+  const uploadService = useCallback(async (): Promise<{
+    videoUrl: string;
+    transcript: any;
+  }> => {
     if (!file) throw new Error('No file');
     setError(null);
     setProgress(0);
@@ -133,7 +137,7 @@ const useUploadVideo = () => {
 
       // 把 transcript 存到狀態（後面 Editing Area 用）
       console.log('字幕精華 JSON', transcript);
-      // TODO: setTranscript(transcript)
+      setTranscript(transcript);
     },
     onError: (e) => {
       setError(e instanceof Error ? e.message : '上傳失敗');
