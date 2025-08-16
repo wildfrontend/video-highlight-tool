@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  Box,
-  ButtonBase,
-  ListItem,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, ButtonBase, ListItem, Stack, Typography } from '@mui/material';
 
 import { useTranscriptStore } from '@/stores/transcripts';
 import { useVideoControlStore } from '@/stores/video-control';

@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  Divider,
-  List,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Divider, List, Stack, Typography } from '@mui/material';
 import { FC } from 'react';
 
 import { useTranscriptStore } from '@/stores/transcripts';
@@ -15,7 +10,10 @@ import TranscriptItem from './transcript-item';
 const TranscriptPanel: FC = () => {
   const { transcript } = useTranscriptStore();
   return (
-    <Stack divider={<Divider sx={{ my: 1, overflowY: 'scroll' }} />}>
+    <Stack
+      bgcolor="grey.50"
+      divider={<Divider sx={{ my: 1, overflowY: 'scroll' }} />}
+    >
       {transcript.map((segment, segIndex) => (
         <Stack key={segIndex}>
           {/* 章節標題 */}

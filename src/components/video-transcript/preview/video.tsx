@@ -1,11 +1,10 @@
-import { Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { useCallback, useEffect, useRef } from 'react';
 import ReactPlayer from 'react-player';
 
 import { useVideoControlStore } from '@/stores/video-control';
 
-import PlayerButton from './player';
-import VideoProccessbar from './proccess';
+import VideoControlPanel from './control';
 
 const VideoPlayer: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -24,20 +23,28 @@ const VideoPlayer: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
   }, [proccess]);
 
   return (
-    <Stack spacing={1}>
-      <ReactPlayer
-        height="auto"
-        playing={playing}
-        ref={setVideoRef}
-        src={videoUrl}
+    <Stack spacing={1} sx={{ height: '100%' }} useFlexGap>
+      <Box
+        bgcolor="grey.900"
+        borderRadius={2}
+        boxShadow={3}
+        overflow="hidden"
         width="100%"
-      />
-      <Stack>
-        <Stack direction="row" spacing={1}>
-          <PlayerButton />
-        </Stack>
-        <VideoProccessbar />
-      </Stack>
+      >
+        <ReactPlayer
+          height="auto"
+          playing={playing}
+          ref={setVideoRef}
+          src={videoUrl}
+          style={{ borderRadius: '8px' }}
+          width="100%"
+        />
+      </Box>
+
+      {/* 控制面板區域 */}
+      <Box sx={{ flex: 1, minHeight: 0 }}>
+        <VideoControlPanel />
+      </Box>
     </Stack>
   );
 };

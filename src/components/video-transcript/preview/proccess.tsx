@@ -1,44 +1,73 @@
-import { Slider } from '@mui/material';
-import { useVideoControlStore } from '@/stores/video-control';
+import { Box, Slider, Stack, Typography } from '@mui/material';
+import { useCallback } from 'react';
+
 import { useTranscriptStore } from '@/stores/transcripts';
-import { convertTimeline } from '@/utils/video-transcript';
+import { useVideoControlStore } from '@/stores/video-control';
+
+import { customSliderStyles } from './styles';
 
 const VideoProccessbar: React.FC = () => {
   const { duration, proccess, setProccess } = useVideoControlStore();
   const { transcript } = useTranscriptStore();
-  const highlight = convertTimeline(transcript);
 
-  const marks = highlight.map((time) => ({
-    value: +time.toFixed(2),
-    label: '', // 可顯示時間
-  }));
+  // 處理進度條滑動
+  const handleSliderChange = useCallback(
+    (_event: Event, newValue: number | number[]) => {
+      const newTime = Array.isArray(newValue) ? newValue[0] : newValue;
+      setProccess(Math.max(0, Math.min(newTime, duration)));
+    },
+    [duration, setProccess]
+  );
+
+  // 格式化時間
+  const formatTime = (seconds: number): string => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   return (
-    <Slider
-      max={+duration.toFixed(2)}
-      min={0}
-      step={0.01}
-      value={proccess}
-      marks={marks}
-      onChange={(e, value) => setProccess(value as number)}
-      sx={{
-        height: 12, // 整個 slider 高度
-        '& .MuiSlider-track': {
-          height: 8, // 進度條高度
-        },
-        '& .MuiSlider-rail': {
-          height: 8, // 背景條高度
-        },
-        '& .MuiSlider-thumb': {
-          width: 24, // 滑桿圓點寬度
-          height: 24, // 滑桿圓點高度
-        },
-        '& .MuiSlider-mark': {
-          width: 8, // mark 點寬
-          height: 8, // mark 點高
-        },
-      }}
-    />
+    <Stack spacing={1} useFlexGap>
+      <Slider
+        max={duration}
+        min={0}
+        onChange={handleSliderChange}
+        step={0.1}
+        sx={customSliderStyles}
+        value={proccess}
+        valueLabelDisplay="auto"
+        valueLabelFormat={formatTime}
+      />
+
+      {/* 時間標籤 */}
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        sx={{
+          px: 1,
+          py: 1.5,
+          bgcolor: 'white',
+          borderRadius: 1,
+          border: '1px solid',
+          borderColor: 'grey.200',
+        }}
+      >
+        <Typography
+          color="text.primary"
+          sx={{ fontWeight: 500 }}
+          variant="body2"
+        >
+          當前時間: {formatTime(proccess)}
+        </Typography>
+        <Typography
+          color="text.secondary"
+          sx={{ fontWeight: 500 }}
+          variant="body2"
+        >
+          總時長: {formatTime(duration)}
+        </Typography>
+      </Box>
+    </Stack>
   );
 };
 

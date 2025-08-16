@@ -25,11 +25,11 @@ const Page = () => {
           <Paper
             component={Stack}
             height="-webkit-fill-available"
-            sx={{ height: { xs: '50dvh', lg: '800px' } }}
+            sx={{ height: { xs: '60dvh', lg: '800px' } }}
             variant="outlined"
           >
             <PanelHeader title="Preview" />
-            <Box flex={1}>
+            <Box bgcolor="grey.100" flex={1} sx={{ overflowY: 'auto' }}>
               <PreviewArea />
             </Box>
           </Paper>
