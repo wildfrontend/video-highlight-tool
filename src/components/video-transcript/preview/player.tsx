@@ -1,6 +1,4 @@
-import { Button, Stack } from '@mui/material';
-import { useCallback, useRef } from 'react';
-import ReactPlayer from 'react-player';
+import { Button } from '@mui/material';
 
 import { useVideoControlStore } from '@/stores/video-control';
 

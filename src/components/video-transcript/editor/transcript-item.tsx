@@ -2,61 +2,80 @@
 
 import {
   Box,
-  Divider,
-  List,
-  ListItemButton,
-  ListItemText,
+  ButtonBase,
+  ListItem,
   Stack,
   Typography,
 } from '@mui/material';
-import { FC } from 'react';
 
+import { useTranscriptStore } from '@/stores/transcripts';
 import { useVideoControlStore } from '@/stores/video-control';
 import { TranscriptListItem } from '@/types/apis/videos/transcripts';
 
 const TranscriptItem: React.FC<{
   item: TranscriptListItem;
-}> = ({ item }) => {
+  itemIndex: number;
+  segmentIndex: number;
+}> = ({ item, itemIndex, segmentIndex }) => {
   const { setProccess } = useVideoControlStore();
+  const { setHighlighted } = useTranscriptStore();
+
   return (
-    <ListItemButton
-      sx={{
-        mb: 0.5,
-        borderRadius: 1,
-      }}
-    >
-      <ListItemText
-        primary={
-          <Box component="span" sx={{ display: 'flex', gap: 1 }}>
-            <Typography
-              sx={{
-                minWidth: 50,
-                fontWeight: 500,
-                color: 'primary.main',
-              }}
-              variant="caption"
-            >
-              {item.start}
-            </Typography>
+    <ListItem sx={{ mb: 0.5, p: 0 }}>
+      <Stack
+        alignItems="flex-start"
+        direction="row"
+        sx={{
+          width: '100%',
+          backgroundColor: item.is_highlighted
+            ? 'rgba(25, 118, 210, 0.2)'
+            : 'inherit',
+          '&:hover': {
+            backgroundColor: item.is_highlighted
+              ? 'rgba(25, 118, 210, 0.2)'
+              : 'rgba(0, 0, 0, 0.04)',
+          },
+        }}
+      >
+        {/* 左邊時間按鈕 */}
+        <ButtonBase
+          onClick={(e) => {
+            e.stopPropagation();
+            setProccess(item.start_seconds);
+          }}
+          sx={{
+            minWidth: 60,
+            px: 1,
+            py: 0.5,
+            fontWeight: 500,
+            color: 'primary.main',
+          }}
+        >
+          {item.start}
+        </ButtonBase>
+
+        {/* 右邊字幕區塊 */}
+        <Box
+          onClick={(e) => {
+            e.stopPropagation();
+            setHighlighted(segmentIndex, itemIndex, !item.is_highlighted);
+          }}
+          sx={{
+            flex: 1,
+            px: 1,
+            py: 0.5,
+            cursor: 'pointer',
+          }}
+        >
+          <Typography color="text.primary" variant="body2">
             {item.label}
-          </Box>
-        }
-        secondary={item.captions}
-        onClick={() => {
-          setProccess(item.start_seconds);
-        }}
-        slotProps={{
-          primary: {
-            variant: 'body2',
-            sx: { color: 'text.primary' },
-          },
-          secondary: {
-            variant: 'caption',
-            sx: { color: 'text.secondary' },
-          },
-        }}
-      />
-    </ListItemButton>
+          </Typography>
+          <Typography color="text.secondary" variant="caption">
+            {item.captions}
+          </Typography>
+        </Box>
+      </Stack>
+    </ListItem>
   );
 };
 

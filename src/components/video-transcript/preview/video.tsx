@@ -1,4 +1,4 @@
-import { Button, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import { useCallback, useEffect, useRef } from 'react';
 import ReactPlayer from 'react-player';
 
@@ -9,8 +9,7 @@ import VideoProccessbar from './proccess';
 
 const VideoPlayer: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const { playing, proccess, setDuration } =
-    useVideoControlStore();
+  const { playing, proccess, setDuration } = useVideoControlStore();
 
   const setVideoRef = useCallback((player: HTMLVideoElement) => {
     if (!player) return;
@@ -27,9 +26,9 @@ const VideoPlayer: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
   return (
     <Stack spacing={1}>
       <ReactPlayer
-        ref={setVideoRef}
         height="auto"
         playing={playing}
+        ref={setVideoRef}
         src={videoUrl}
         width="100%"
       />

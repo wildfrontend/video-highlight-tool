@@ -1,17 +1,7 @@
 'use client';
 
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import {
-  Alert,
-  Button,
-  Stack,
-  Typography,
-} from '@mui/material';
 import { useRequest } from 'ahooks';
-import {
-  type FC,
-  useState,
-} from 'react';
+import { type FC, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import { uploadVideo } from '@/apis/videos/transcripts';
@@ -56,7 +46,7 @@ const UploadVideo: FC = () => {
   });
 
   // if (videoUrl) {
-    return <VideoPlayer videoUrl={"/mock-video.mp4"} />;
+  return <VideoPlayer videoUrl={'/mock-video.mp4'} />;
   // }
   // return (
   //   <Stack alignItems="center" spacing={2} textAlign="center">

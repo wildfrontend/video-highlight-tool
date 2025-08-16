@@ -8,6 +8,7 @@ export type TranscriptListItem = {
   start_seconds: number;
   start: string;
   captions: string;
+  is_highlighted: boolean;
 };
 
 export type UploadVideoRespones = {

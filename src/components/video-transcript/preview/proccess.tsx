@@ -6,13 +6,13 @@ const VideoProccessbar: React.FC = () => {
   const { duration, proccess, setProccess } = useVideoControlStore();
   return (
     <Slider
-      min={0}
       max={+duration.toFixed(2)}
-      step={0.01}
-      value={proccess}
+      min={0}
       onChange={(e, value) => {
         setProccess(value);
       }}
+      step={0.01}
+      value={proccess}
     ></Slider>
   );
 };

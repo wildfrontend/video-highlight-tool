@@ -11,12 +11,17 @@ type VideoControlState = {
 };
 
 export const useVideoControlStore = create<VideoControlState>()(
-  devtools((set) => ({
-    playing: false,
-    setPlaying: (playing) => set({ playing }),
-    duration: 0,
-    setDuration: (duration) => set({ duration }),
-    proccess: 0,
-    setProccess: (proccess) => set({ proccess }),
-  }))
+  devtools(
+    (set) => ({
+      playing: false,
+      setPlaying: (playing) => set({ playing }),
+      duration: 0,
+      setDuration: (duration) => set({ duration }),
+      proccess: 0,
+      setProccess: (proccess) => set({ proccess }),
+    }),
+    {
+      name: 'video-control-store',
+    }
+  )
 );

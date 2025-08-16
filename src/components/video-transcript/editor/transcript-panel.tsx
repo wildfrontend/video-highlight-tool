@@ -1,11 +1,8 @@
 'use client';
 
 import {
-  Box,
   Divider,
   List,
-  ListItemButton,
-  ListItemText,
   Stack,
   Typography,
 } from '@mui/material';
@@ -31,7 +28,14 @@ const TranscriptPanel: FC = () => {
 
           <List dense disablePadding>
             {segment.items.map((item, itemIndex) => {
-              return <TranscriptItem item={item} key={itemIndex} />;
+              return (
+                <TranscriptItem
+                  item={item}
+                  itemIndex={itemIndex}
+                  key={itemIndex}
+                  segmentIndex={segIndex}
+                />
+              );
             })}
           </List>
         </Stack>
