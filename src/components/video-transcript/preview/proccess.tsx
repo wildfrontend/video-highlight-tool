@@ -47,8 +47,7 @@ const VideoTimebar: React.FC = () => {
 };
 
 const VideoProccessbar: React.FC = () => {
-  const { duration, proccess, setProccess} =
-    useVideoControlStore();
+  const { duration, proccess, setProccess } = useVideoControlStore();
 
   // 處理進度條滑動
   const handleSliderChange = useCallback(
@@ -82,7 +81,7 @@ const VideoProccessbar: React.FC = () => {
         '& .MuiSlider-thumb': {
           width: 4,
           height: 12,
-          borderRadius:0,
+          borderRadius: 0,
           bgcolor: 'white',
           boxShadow: 3,
           '&:hover, &.Mui-focusVisible': {

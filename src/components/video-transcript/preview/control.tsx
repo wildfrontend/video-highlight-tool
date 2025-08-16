@@ -23,7 +23,7 @@ const VideoHighlightControl: React.FC = () => {
         <VideoHighLightPlayer />
       </Stack>
     </Stack>
-  )
-}
+  );
+};
 
 export default VideoHighlightControl;

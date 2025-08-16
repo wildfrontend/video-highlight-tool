@@ -1,5 +1,5 @@
 import { Box, Stack } from '@mui/material';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback } from 'react';
 import ReactPlayer from 'react-player';
 
 import { useVideoControlStore } from '@/stores/video-control';
@@ -34,15 +34,15 @@ const VideoPlayer: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
       >
         <ReactPlayer
           height="auto"
+          onTimeUpdate={(e) => {
+            const currentTime = +e.currentTarget.currentTime.toFixed(2);
+            setProccess(currentTime);
+          }}
           playing={playing}
           ref={setVideoRef}
           src={videoUrl}
           style={{ borderRadius: '8px' }}
           width="100%"
-          onTimeUpdate={(e) => {
-            const currentTime = +e.currentTarget.currentTime.toFixed(2);
-            setProccess(currentTime);
-          }}
         />
         <VideoProccessControl />
       </Box>
