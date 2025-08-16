@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranscriptStore } from '@/stores/transcripts';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {
   Alert,
@@ -21,6 +20,8 @@ import {
 } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
 import ReactPlayer from 'react-player';
+
+import { useTranscriptStore } from '@/stores/transcripts';
 
 const MAX_SIZE_BYTES = 1024 * 1024 * 200; // 200MB
 const ACCEPT = { 'video/*': [] } as const;
@@ -204,68 +205,13 @@ const UploadVideo: FC = () => {
 
   return (
     <Stack alignItems="center" spacing={2} textAlign="center">
-      <CloudUploadIcon fontSize="large" />
-
-      <Typography variant="h6">上傳你的影片</Typography>
-      <Typography color="text.secondary" variant="body2">
-        選擇檔案後，按「模擬上傳」會顯示影片（不會真的上傳）。
-      </Typography>
-
-      {/* 隱藏 input（用按鈕觸發選檔） */}
-      <input {...inputProps} style={{ display: 'none' }} />
-
-      {/* 操作區（預覽階段隱藏） */}
-      {!isPreview && (
-        <Stack direction="row" spacing={1}>
-          <Button
-            disabled={isUploading}
-            onClick={openFileDialog}
-            variant="outlined"
-          >
-            選擇檔案
-          </Button>
-          <Button
-            disabled={!isPicked || isUploading}
-            onClick={simulateUpload}
-            variant="contained"
-          >
-            {isUploading ? '上傳中…' : '模擬上傳'}
-          </Button>
-        </Stack>
-      )}
-
-      {/* 檔名提示 */}
-      {isPicked && !isUploading && (
-        <Typography color="text.secondary" sx={{ mt: 1 }} variant="body2">
-          已選擇：{file?.name}（
-          {file ? (file.size / 1024 / 1024).toFixed(1) : 0} MB）
-        </Typography>
-      )}
-
-      {/* 錯誤訊息 */}
-      {error && (
-        <Alert severity="error" sx={{ width: '100%', maxWidth: 640 }}>
-          {error}
-        </Alert>
-      )}
-
-      {/* 進度條 */}
-      {isUploading && (
-        <Box sx={{ width: '100%', maxWidth: 640 }}>
-          <LinearProgress value={progress} variant="determinate" />
-          <Typography color="text.secondary" variant="caption">
-            {Math.round(progress)}%
-          </Typography>
-        </Box>
-      )}
-
       {/* 預覽（react-player 用 url） */}
-      {isPreview && blobUrl && (
+      {isPreview && blobUrl ? (
         <>
           <Box sx={{ width: '100%', maxWidth: 880, mt: 1 }}>
             <ReactPlayer
               controls
-              height="480px"
+              height="auto"
               playing={false}
               src={blobUrl}
               width="100%"
@@ -277,6 +223,63 @@ const UploadVideo: FC = () => {
           <Button onClick={clear} sx={{ mt: 2 }} variant="outlined">
             清除
           </Button>
+        </>
+      ) : (
+        <>
+          <CloudUploadIcon fontSize="large" />
+
+          <Typography variant="h6">上傳你的影片</Typography>
+          <Typography color="text.secondary" variant="body2">
+            選擇檔案後，按「模擬上傳」會顯示影片（不會真的上傳）。
+          </Typography>
+
+          {/* 隱藏 input（用按鈕觸發選檔） */}
+          <input {...inputProps} style={{ display: 'none' }} />
+
+          {/* 操作區（預覽階段隱藏） */}
+          {!isPreview && (
+            <Stack direction="row" spacing={1}>
+              <Button
+                disabled={isUploading}
+                onClick={openFileDialog}
+                variant="outlined"
+              >
+                選擇檔案
+              </Button>
+              <Button
+                disabled={!isPicked || isUploading}
+                onClick={simulateUpload}
+                variant="contained"
+              >
+                {isUploading ? '上傳中…' : '模擬上傳'}
+              </Button>
+            </Stack>
+          )}
+
+          {/* 檔名提示 */}
+          {isPicked && !isUploading && (
+            <Typography color="text.secondary" sx={{ mt: 1 }} variant="body2">
+              已選擇：{file?.name}（
+              {file ? (file.size / 1024 / 1024).toFixed(1) : 0} MB）
+            </Typography>
+          )}
+
+          {/* 錯誤訊息 */}
+          {error && (
+            <Alert severity="error" sx={{ width: '100%', maxWidth: 640 }}>
+              {error}
+            </Alert>
+          )}
+
+          {/* 進度條 */}
+          {isUploading && (
+            <Box sx={{ width: '100%', maxWidth: 640 }}>
+              <LinearProgress value={progress} variant="determinate" />
+              <Typography color="text.secondary" variant="caption">
+                {Math.round(progress)}%
+              </Typography>
+            </Box>
+          )}
         </>
       )}
     </Stack>

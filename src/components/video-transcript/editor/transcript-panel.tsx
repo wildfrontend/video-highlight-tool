@@ -16,17 +16,7 @@ const TranscriptPanel: FC = ({}) => {
   const {transcript} = useTranscriptStore();
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        maxHeight: '100%',
-        overflowY: 'auto',
-        borderRight: 1,
-        borderColor: 'divider',
-        p: 2,
-        bgcolor: 'background.paper',
-      }}
-    >
+    <Box>
       {transcript.map((segment, segIndex) => (
         <Box key={segIndex} sx={{ mb: 3 }}>
           {/* 章節標題 */}
