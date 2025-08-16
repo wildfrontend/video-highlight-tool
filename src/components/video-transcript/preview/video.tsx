@@ -4,11 +4,14 @@ import ReactPlayer from 'react-player';
 
 import { useVideoControlStore } from '@/stores/video-control';
 
-import VideoControlPanel from './control';
+import VideoHighlightControl from './control';
+import VideoProccessControl from './proccess';
+import { useVideoRef } from './video-ref';
 
 const VideoPlayer: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const { playing, proccess, setDuration } = useVideoControlStore();
+  const videoRef = useVideoRef();
+  const { playing, proccess, setProccess, setDuration, setPlaying } =
+    useVideoControlStore();
 
   const setVideoRef = useCallback((player: HTMLVideoElement) => {
     if (!player) return;
@@ -16,20 +19,18 @@ const VideoPlayer: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
     setDuration(player.duration);
   }, []);
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.currentTime = proccess;
-    }
-  }, [proccess]);
-
   return (
-    <Stack spacing={1} sx={{ height: '100%' }} useFlexGap>
+    <Stack spacing={2} sx={{ height: '100%' }} useFlexGap>
       <Box
-        bgcolor="grey.900"
-        borderRadius={2}
-        boxShadow={3}
-        overflow="hidden"
-        width="100%"
+        sx={{
+          position: 'relative',
+          width: '100%',
+          borderRadius: 2,
+          overflow: 'hidden',
+          boxShadow: 3,
+          bgcolor: 'grey.900',
+          cursor: 'pointer',
+        }}
       >
         <ReactPlayer
           height="auto"
@@ -38,12 +39,15 @@ const VideoPlayer: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
           src={videoUrl}
           style={{ borderRadius: '8px' }}
           width="100%"
+          onTimeUpdate={(e) => {
+            const currentTime = +e.currentTarget.currentTime.toFixed(2);
+            setProccess(currentTime);
+          }}
         />
+        <VideoProccessControl />
       </Box>
-
-      {/* 控制面板區域 */}
-      <Box sx={{ flex: 1, minHeight: 0 }}>
-        <VideoControlPanel />
+      <Box>
+        <VideoHighlightControl />
       </Box>
     </Stack>
   );

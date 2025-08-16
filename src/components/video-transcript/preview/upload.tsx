@@ -8,6 +8,7 @@ import { uploadVideo } from '@/apis/videos/transcripts';
 import { useTranscriptStore } from '@/stores/transcripts';
 
 import VideoPlayer from './video';
+import VideoRefProvider from './video-ref';
 
 const UploadVideo: FC = () => {
   const { setTranscript } = useTranscriptStore();
@@ -46,7 +47,11 @@ const UploadVideo: FC = () => {
   });
 
   // if (videoUrl) {
-  return <VideoPlayer videoUrl={'/mock-video.mp4'} />;
+  return (
+    <VideoRefProvider>
+      <VideoPlayer videoUrl={'/mock-video.mp4'} />
+    </VideoRefProvider>
+  );
   // }
   // return (
   //   <Stack alignItems="center" spacing={2} textAlign="center">
