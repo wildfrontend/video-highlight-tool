@@ -216,13 +216,7 @@ const UploadVideo: FC = () => {
               src={blobUrl}
               width="100%"
             />
-            <Typography color="text.secondary" variant="caption">
-              來源：本地檔案（尚未真正上傳）
-            </Typography>
           </Box>
-          <Button onClick={clear} sx={{ mt: 2 }} variant="outlined">
-            清除
-          </Button>
         </>
       ) : (
         <>

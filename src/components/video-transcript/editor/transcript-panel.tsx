@@ -6,21 +6,24 @@ import {
   List,
   ListItemButton,
   ListItemText,
+  Stack,
   Typography,
 } from '@mui/material';
 import { FC } from 'react';
 
 import { useTranscriptStore } from '@/stores/transcripts';
 
-const TranscriptPanel: FC = ({}) => {
-  const {transcript} = useTranscriptStore();
-
+const TranscriptPanel: FC = () => {
+  const { transcript } = useTranscriptStore();
   return (
-    <Box>
+    <Stack divider={<Divider sx={{ my: 1 , overflowY: 'scroll'}} />}>
       {transcript.map((segment, segIndex) => (
-        <Box key={segIndex} sx={{ mb: 3 }}>
+        <Stack key={segIndex}>
           {/* 章節標題 */}
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 1 }}>
+          <Typography
+            variant="subtitle1"
+            sx={{ fontWeight: 'bold', mb: 1, pl: 1, pt: 1 }}
+          >
             {segment.title}
           </Typography>
 
@@ -35,13 +38,15 @@ const TranscriptPanel: FC = ({}) => {
                   }}
                 >
                   <ListItemText
-                    primaryTypographyProps={{
-                      variant: 'body2',
-                      sx: { color: 'text.primary' },
-                    }}
-                    secondaryTypographyProps={{
-                      variant: 'caption',
-                      sx: { color: 'text.secondary' },
+                    slotProps={{
+                      primary: {
+                        variant: 'body2',
+                        sx: { color: 'text.primary' },
+                      },
+                      secondary: {
+                        variant: 'caption',
+                        sx: { color: 'text.secondary' },
+                      },
                     }}
                     primary={
                       <Box component="span" sx={{ display: 'flex', gap: 1 }}>
@@ -64,13 +69,9 @@ const TranscriptPanel: FC = ({}) => {
               );
             })}
           </List>
-
-          {segIndex < transcript.length - 1 && (
-            <Divider sx={{ mt: 2, mb: 2 }} />
-          )}
-        </Box>
+        </Stack>
       ))}
-    </Box>
+    </Stack>
   );
 };
 
