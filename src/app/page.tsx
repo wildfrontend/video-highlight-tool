@@ -12,8 +12,8 @@ const Page = () => {
           <Paper
             component={Stack}
             height="-webkit-fill-available"
-            variant="outlined"
             sx={{ height: { xs: '40dvh', lg: '800px' } }}
+            variant="outlined"
           >
             <PanelHeader title="Transcript" />
             <Box flex={1} sx={{ overflowY: 'auto' }}>
@@ -25,8 +25,8 @@ const Page = () => {
           <Paper
             component={Stack}
             height="-webkit-fill-available"
-            variant="outlined"
             sx={{ height: { xs: '50dvh', lg: '800px' } }}
+            variant="outlined"
           >
             <PanelHeader title="Preview" />
             <Box flex={1}>

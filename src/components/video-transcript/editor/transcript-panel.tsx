@@ -16,13 +16,13 @@ import { useTranscriptStore } from '@/stores/transcripts';
 const TranscriptPanel: FC = () => {
   const { transcript } = useTranscriptStore();
   return (
-    <Stack divider={<Divider sx={{ my: 1 , overflowY: 'scroll'}} />}>
+    <Stack divider={<Divider sx={{ my: 1, overflowY: 'scroll' }} />}>
       {transcript.map((segment, segIndex) => (
         <Stack key={segIndex}>
           {/* 章節標題 */}
           <Typography
-            variant="subtitle1"
             sx={{ fontWeight: 'bold', mb: 1, pl: 1, pt: 1 }}
+            variant="subtitle1"
           >
             {segment.title}
           </Typography>
@@ -38,6 +38,22 @@ const TranscriptPanel: FC = () => {
                   }}
                 >
                   <ListItemText
+                    primary={
+                      <Box component="span" sx={{ display: 'flex', gap: 1 }}>
+                        <Typography
+                          sx={{
+                            minWidth: 50,
+                            fontWeight: 500,
+                            color: 'primary.main',
+                          }}
+                          variant="caption"
+                        >
+                          {item.start}
+                        </Typography>
+                        {item.label}
+                      </Box>
+                    }
+                    secondary={item.captions}
                     slotProps={{
                       primary: {
                         variant: 'body2',
@@ -48,22 +64,6 @@ const TranscriptPanel: FC = () => {
                         sx: { color: 'text.secondary' },
                       },
                     }}
-                    primary={
-                      <Box component="span" sx={{ display: 'flex', gap: 1 }}>
-                        <Typography
-                          variant="caption"
-                          sx={{
-                            minWidth: 50,
-                            fontWeight: 500,
-                            color: 'primary.main',
-                          }}
-                        >
-                          {item.start}
-                        </Typography>
-                        {item.label}
-                      </Box>
-                    }
-                    secondary={item.captions}
                   />
                 </ListItemButton>
               );
