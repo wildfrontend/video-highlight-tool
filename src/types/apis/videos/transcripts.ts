@@ -7,6 +7,8 @@ export type TranscriptListItem = {
   label: string;
   start_seconds: number;
   start: string;
+  end_seconds: number;
+  end: string;
   captions: string;
   is_highlighted: boolean;
 };
