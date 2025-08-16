@@ -55,42 +55,42 @@ const UploadVideo: FC = () => {
     },
   });
 
-  if (videoUrl) {
-    return <VideoPlayer videoUrl={videoUrl} />;
-  }
-  return (
-    <Stack alignItems="center" spacing={2} textAlign="center">
-      <input {...getInputProps()} style={{ display: 'none' }} />
-      <CloudUploadIcon fontSize="large" />
-      <Typography variant="h6">上傳你的影片</Typography>
-      <Typography color="text.secondary" variant="body2">
-        選擇檔案後，按「上傳」會顯示影片（不會真的上傳）。
-      </Typography>
-      <Stack direction="row" spacing={1}>
-        <Button
-          disabled={isUploading}
-          onClick={openFileDialog}
-          variant="outlined"
-        >
-          選擇檔案
-        </Button>
-        <Button disabled={isUploading} onClick={onUpload} variant="contained">
-          上傳
-        </Button>
-      </Stack>
-      {error && (
-        <Alert severity="error" sx={{ width: '100%', maxWidth: 640 }}>
-          {error}
-        </Alert>
-      )}
-      {!!file && !isUploading && (
-        <Typography color="text.secondary" sx={{ mt: 1 }} variant="body2">
-          已選擇：{file?.name}（
-          {file ? (file.size / 1024 / 1024).toFixed(1) : 0} MB）
-        </Typography>
-      )}
-    </Stack>
-  );
+  // if (videoUrl) {
+    return <VideoPlayer videoUrl={"/mock-video.mp4"} />;
+  // }
+  // return (
+  //   <Stack alignItems="center" spacing={2} textAlign="center">
+  //     <input {...getInputProps()} style={{ display: 'none' }} />
+  //     <CloudUploadIcon fontSize="large" />
+  //     <Typography variant="h6">上傳你的影片</Typography>
+  //     <Typography color="text.secondary" variant="body2">
+  //       選擇檔案後，按「上傳」會顯示影片（不會真的上傳）。
+  //     </Typography>
+  //     <Stack direction="row" spacing={1}>
+  //       <Button
+  //         disabled={isUploading}
+  //         onClick={openFileDialog}
+  //         variant="outlined"
+  //       >
+  //         選擇檔案
+  //       </Button>
+  //       <Button disabled={isUploading} onClick={onUpload} variant="contained">
+  //         上傳
+  //       </Button>
+  //     </Stack>
+  //     {error && (
+  //       <Alert severity="error" sx={{ width: '100%', maxWidth: 640 }}>
+  //         {error}
+  //       </Alert>
+  //     )}
+  //     {!!file && !isUploading && (
+  //       <Typography color="text.secondary" sx={{ mt: 1 }} variant="body2">
+  //         已選擇：{file?.name}（
+  //         {file ? (file.size / 1024 / 1024).toFixed(1) : 0} MB）
+  //       </Typography>
+  //     )}
+  //   </Stack>
+  // );
 };
 
 export default UploadVideo;

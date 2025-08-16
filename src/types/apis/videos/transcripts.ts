@@ -1,9 +1,9 @@
-type Transcript = {
+export type TranscriptSegment = {
   title: string;
   items: TranscriptItem[];
 };
 
-type TranscriptItem = {
+export type TranscriptItem = {
   label: string;
   start_seconds: number;
   start: string;
@@ -12,6 +12,6 @@ type TranscriptItem = {
 
 export type UploadVideoRespones = {
   success: true;
-  transcript: Transcript[];
+  transcript: TranscriptSegment[];
   videoUrl: '/mock-video.mp4';
 };
