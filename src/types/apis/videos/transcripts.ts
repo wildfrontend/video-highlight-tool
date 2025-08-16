@@ -1,9 +1,9 @@
 export type TranscriptSegment = {
   title: string;
-  items: TranscriptItem[];
+  items: TranscriptListItem[];
 };
 
-export type TranscriptItem = {
+export type TranscriptListItem = {
   label: string;
   start_seconds: number;
   start: string;
