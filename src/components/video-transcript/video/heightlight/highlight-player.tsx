@@ -41,8 +41,7 @@ const HighLightPlayerItem: React.FC<{
 };
 
 const HighLightPlayer: React.FC = () => {
-  const { transcript } = useTranscriptStore();
-  const highlight = convertTimeline(transcript);
+  const { highlight} = useTranscriptStore();
   const { seekHighlight, setSeekHighlight } = useSeekHighlightStore();
   const { proccess, setPlaying } = useVideoControlStore();
 

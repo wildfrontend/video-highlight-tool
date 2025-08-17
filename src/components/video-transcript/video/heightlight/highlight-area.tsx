@@ -73,8 +73,7 @@ const HighlightAreaItem: React.FC<{
 const HightLightArea: React.FC = () => {
   const videoRef = useVideoRef();
   const { duration, proccess, setProccess } = useVideoControlStore();
-  const { transcript } = useTranscriptStore();
-  const highlight = convertTimeline(transcript);
+  const {  highlight } = useTranscriptStore();
 
   const { isPlayingHighlight } = useHighlightPlayer();
 
