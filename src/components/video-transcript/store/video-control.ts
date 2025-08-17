@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 type VideoControlState = {
+  videoUrl: string | null;
+  setVideoUrl: (videoUrl: string) => void;
   duration: number;
   setDuration: (duration: number) => void;
   playing: boolean;
@@ -13,6 +15,8 @@ type VideoControlState = {
 export const useVideoControlStore = create<VideoControlState>()(
   devtools(
     (set) => ({
+      videoUrl: null,
+      setVideoUrl: (videoUrl) => set({ videoUrl }),
       playing: false,
       setPlaying: (playing) => set({ playing }),
       duration: 0,

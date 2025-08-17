@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 
-import { useVideoControlStore } from '@/stores/video-control';
+import { useVideoControlStore } from '@/components/video-transcript/store/video-control';
 
 const PlayerButton: React.FC = () => {
   const { playing, setPlaying } = useVideoControlStore();

@@ -4,7 +4,7 @@ import { Box, ButtonBase, ListItem, Stack, Typography } from '@mui/material';
 import { useCallback, useEffect, useRef } from 'react';
 
 import { useTranscriptStore } from '@/stores/transcripts';
-import { useVideoControlStore } from '@/stores/video-control';
+import { useVideoControlStore } from '@/components/video-transcript/store/video-control';
 import { TranscriptListItem } from '@/types/apis/videos/transcripts';
 
 const TranscriptItem: React.FC<{

@@ -17,8 +17,11 @@ type TranscriptState = {
 export const useTranscriptStore = create<TranscriptState>()(
   devtools(
     (set) => ({
-      transcript: mockData,
-      setTranscript: (data) => set({ transcript: data }),
+      transcript: [],
+      setTranscript: (data) => {
+        console.log('setTranscript', data);
+        return set({ transcript: data });
+      },
       setHighlighted: (
         segmentIndex: number,
         itemIndex: number,

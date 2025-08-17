@@ -1,4 +1,3 @@
-// VideoRefContext.tsx
 import React, { RefObject, createContext, useContext, useRef } from 'react';
 
 type VideoRefContextType = {

@@ -1,4 +1,3 @@
-// stores/video-highlight.ts
 import { create } from 'zustand';
 
 interface Highlight {

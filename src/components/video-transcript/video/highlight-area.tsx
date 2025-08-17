@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 
 import { useTranscriptStore } from '@/stores/transcripts';
-import { useVideoControlStore } from '@/stores/video-control';
+import { useVideoControlStore } from '@/components/video-transcript/store/video-control';
 import { convertTimeline } from '@/utils/video-transcript';
 
 const VideoProccessPointer: React.FC<{ pointerPosition: number }> = ({

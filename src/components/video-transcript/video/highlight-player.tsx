@@ -2,9 +2,9 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { Chip, Grid, Stack } from '@mui/material';
 import { useEffect } from 'react';
 
-import { useActiveHighlightStore } from '@/stores/active-highlight';
+import { useActiveHighlightStore } from '@/components/video-transcript/store/active-highlight';
 import { useTranscriptStore } from '@/stores/transcripts';
-import { useVideoControlStore } from '@/stores/video-control';
+import { useVideoControlStore } from '@/components/video-transcript/store/video-control';
 import { convertTimeline, formatTime } from '@/utils/video-transcript';
 
 import { useVideoRef } from './video-ref';

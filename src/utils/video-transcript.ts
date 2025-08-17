@@ -23,3 +23,10 @@ export const formatTime = (seconds: number): string => {
   const secs = Math.floor(seconds % 60);
   return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 };
+
+/**
+ * 時間秒數最多小數點第二位
+ */
+export const timeFixed2 = (value:number):number =>{
+  return +value.toFixed(2)
+}

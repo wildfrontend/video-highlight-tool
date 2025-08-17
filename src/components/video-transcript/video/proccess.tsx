@@ -3,7 +3,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { Box, IconButton, Slider, Stack, Typography } from '@mui/material';
 import { useCallback } from 'react';
 
-import { useVideoControlStore } from '@/stores/video-control';
+import { useVideoControlStore } from '@/components/video-transcript/store/video-control';
 import { formatTime } from '@/utils/video-transcript';
 
 const VideoPlayButton: React.FC = () => {

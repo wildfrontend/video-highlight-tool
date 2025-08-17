@@ -1,7 +1,7 @@
 import { Box, Container, Grid, Paper, Stack } from '@mui/material';
 
 import TranscriptPanel from '@/components/video-transcript/editor/transcript-panel';
-import PreviewArea from '@/components/video-transcript/preview/main';
+import PreviewArea from '@/components/video-transcript/preview';
 import PanelHeader from '@/components/video-transcript/ui/header';
 
 const Page = () => {
@@ -17,7 +17,7 @@ const Page = () => {
           >
             <PanelHeader title="Transcript" />
             <Box flex={1} sx={{ overflowY: 'auto' }}>
-              <TranscriptPanel />
+              {/* <TranscriptPanel /> */}
             </Box>
           </Paper>
         </Grid>
@@ -29,7 +29,7 @@ const Page = () => {
             variant="outlined"
           >
             <PanelHeader title="Preview" />
-            <Box bgcolor="grey.100" flex={1} sx={{ overflowY: 'auto' }}>
+            <Box bgcolor="grey.100" flex={1} p={2} sx={{ overflowY: 'auto' }}>
               <PreviewArea />
             </Box>
           </Paper>
