@@ -8,7 +8,7 @@ import { Highlight } from '../types/hightlight';
 export const useHighlightPlayer = () => {
   const videoRef = useVideoRef();
   const { setSeekHighlight, seekHighlight } = useSeekHighlightStore();
-  const { setProccess, setPlaying } = useVideoControlStore();
+  const { proccess, setProccess, setPlaying } = useVideoControlStore();
 
   const playHighlight = ({ start_seconds, end_seconds }: Highlight) => {
     if (videoRef.current) {
@@ -20,10 +20,17 @@ export const useHighlightPlayer = () => {
   };
 
   const isPlayingHighlight = useMemo(
-    () => (item: Highlight) =>
-      seekHighlight?.start_seconds === item.start_seconds &&
-      seekHighlight?.end_seconds === item.end_seconds,
-    [seekHighlight]
+    () => (item: Highlight) => {
+      const inSeekHighlight =
+        seekHighlight?.start_seconds === item.start_seconds &&
+        seekHighlight?.end_seconds === item.end_seconds;
+
+      const inVideoRange =
+        proccess >= item.start_seconds && proccess <= item.end_seconds;
+
+      return inSeekHighlight || inVideoRange;
+    },
+    [seekHighlight, proccess]
   );
 
   return {

@@ -5,6 +5,7 @@ import { Box } from '@mui/material';
 import { useVideoControlStore } from '@/components/video-transcript/store/video-control';
 import { convertTimeline, formatTimebar } from '@/utils/video-transcript';
 
+import { useHighlightPlayer } from '../../hooks/highlight-player';
 import { useVideoRef } from '../../providers/video-ref';
 import { useTranscriptStore } from '../../store/transcripts';
 import { HiddenSlider } from './styles';
@@ -47,29 +48,35 @@ const VideoProgressPointer: React.FC<{ pointerPosition: number }> = ({
 const HighlightAreaItem: React.FC<{
   item: { start_seconds: number; end_seconds: number };
   duration: number;
-}> = ({ item, duration }) => (
-  <Box
-    sx={{
-      position: 'absolute',
-      top: 0,
-      height: '100%',
-      bgcolor: 'primary.light',
-      opacity: 0.3,
-      borderRadius: 1,
-      left: `${(item.start_seconds / duration) * 100}%`,
-      width: `${((item.end_seconds - item.start_seconds) / duration) * 100}%`,
-      border: '1px solid',
-      borderColor: 'primary.main',
-      pointerEvents: 'none',
-    }}
-  />
-);
+  isActive?: boolean;
+}> = ({ item, duration, isActive }) => {
+  return (
+    <Box
+      sx={{
+        position: 'absolute',
+        top: 0,
+        height: '100%',
+        bgcolor: isActive ? 'secondary.main' : 'primary.light', // 播放中變色
+        opacity: isActive ? 0.6 : 0.3,
+        borderRadius: 1,
+        left: `${(item.start_seconds / duration) * 100}%`,
+        width: `${((item.end_seconds - item.start_seconds) / duration) * 100}%`,
+        border: '1px solid',
+        borderColor: isActive ? 'secondary.dark' : 'primary.main',
+        pointerEvents: 'none',
+        transition: 'background-color 0.3s, opacity 0.3s', // 加動畫
+      }}
+    />
+  );
+};
 
 const HightLightArea: React.FC = () => {
   const videoRef = useVideoRef();
   const { duration, proccess, setProccess } = useVideoControlStore();
   const { transcript } = useTranscriptStore();
   const highlight = convertTimeline(transcript);
+
+  const { isPlayingHighlight } = useHighlightPlayer();
 
   const pointerPosition = (proccess / duration) * 100;
   return (
@@ -82,7 +89,12 @@ const HightLightArea: React.FC = () => {
       width="100%"
     >
       {highlight.map((item, index) => (
-        <HighlightAreaItem duration={duration} item={item} key={index} />
+        <HighlightAreaItem
+          duration={duration}
+          isActive={isPlayingHighlight(item)}
+          item={item}
+          key={index}
+        />
       ))}
       {/* 紅色指針 */}
       <VideoProgressPointer pointerPosition={pointerPosition} />
