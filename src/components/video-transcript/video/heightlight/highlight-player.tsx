@@ -55,7 +55,7 @@ const HighLightPlayer: React.FC = () => {
   }, [seekHighlight, proccess, setPlaying, setSeekHighlight]);
 
   return (
-    <Stack useFlexGap spacing={2}>
+    <Stack spacing={2} useFlexGap>
       <Grid container minHeight={60} spacing={1.5}>
         {highlight.map((item, index) => (
           <Grid

@@ -73,9 +73,16 @@ const HightLightArea: React.FC = () => {
 
   const pointerPosition = (proccess / duration) * 100;
   return (
-    <Box position="relative" width="100%" height={50} bgcolor="white" border="1px solid" p={0}>
+    <Box
+      bgcolor="white"
+      border="1px solid"
+      height={50}
+      p={0}
+      position="relative"
+      width="100%"
+    >
       {highlight.map((item, index) => (
-        <HighlightAreaItem key={index} item={item} duration={duration} />
+        <HighlightAreaItem duration={duration} item={item} key={index} />
       ))}
       {/* 紅色指針 */}
       <VideoProgressPointer pointerPosition={pointerPosition} />
@@ -83,11 +90,6 @@ const HightLightArea: React.FC = () => {
       <HiddenSlider
         max={duration}
         min={0}
-        value={proccess}
-        step={0.01}
-        valueLabelDisplay="auto"
-        valueLabelFormat={formatTimebar}
-        sx={{ position: 'absolute', top: 0, width: '100%' }}
         onChange={(e, newValue) => {
           const newTime = Array.isArray(newValue) ? newValue[0] : newValue;
           const value = clamp(newTime, 0, duration);
@@ -96,6 +98,11 @@ const HightLightArea: React.FC = () => {
           }
           setProccess(value);
         }}
+        step={0.01}
+        sx={{ position: 'absolute', top: 0, width: '100%' }}
+        value={proccess}
+        valueLabelDisplay="auto"
+        valueLabelFormat={formatTimebar}
       />
     </Box>
   );

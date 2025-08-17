@@ -22,7 +22,7 @@ const TranscriptPanel: React.FC = () => {
                 <TranscriptItem
                   item={item}
                   itemIndex={itemIndex}
-                  key={itemIndex}
+                  key={`${segIndex}-${itemIndex}`}
                   segmentIndex={segIndex}
                 />
               );

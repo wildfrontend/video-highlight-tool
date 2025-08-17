@@ -1,11 +1,11 @@
 import { Box, Stack, Typography } from '@mui/material';
 
-import HighLightPlayer from './highlight-player';
 import HightLightArea from './highlight-area';
+import HighLightPlayer from './highlight-player';
 
 const HighlightControl: React.FC = () => {
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} useFlexGap>
       <Typography
         color="text.primary"
         fontWeight={600}
@@ -19,9 +19,7 @@ const HighlightControl: React.FC = () => {
         <HightLightArea />
       </Box>
 
-      <Stack spacing={1}>
-        <HighLightPlayer />
-      </Stack>
+      <HighLightPlayer />
     </Stack>
   );
 };

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { Highlight } from '../types/hightlight';
 
+import { Highlight } from '../types/hightlight';
 
 interface SeekHighlightState {
   seekHighlight: Highlight | null;

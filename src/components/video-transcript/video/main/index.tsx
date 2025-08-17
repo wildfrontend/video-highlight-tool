@@ -13,7 +13,7 @@ const VideoPlayer: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
   const { playing, setProccess, setDuration } = useVideoControlStore();
 
   return (
-    <Stack spacing={2} sx={{ height: '100%' }} useFlexGap>
+    <Stack spacing={2} useFlexGap>
       <Box position="relative">
         <ReactPlayer
           onDurationChange={(e) => {

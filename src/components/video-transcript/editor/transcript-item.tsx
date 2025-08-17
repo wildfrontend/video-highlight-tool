@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, ButtonBase, ListItem, Typography } from '@mui/material';
-import { use, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { useTranscriptStore } from '@/components/video-transcript/store/transcripts';
 import { TranscriptListItem } from '@/types/apis/videos/transcripts';
@@ -44,7 +44,7 @@ const TranscriptItem: React.FC<{
         p: 0,
       }}
     >
-      <TranscriptRow isPlaying={isPlaying} isHighlighted={item.is_highlighted}>
+      <TranscriptRow isHighlighted={item.is_highlighted} isPlaying={isPlaying}>
         {/* 左邊時間按鈕 */}
         <ButtonBase
           onClick={(e) => {

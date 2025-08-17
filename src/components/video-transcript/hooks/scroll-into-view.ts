@@ -1,27 +1,32 @@
 import { useCallback, useRef } from 'react';
 
-export const useScrollIntoView = () => {
+interface UseScrollIntoViewOptions {
+  offset?: number;
+  behavior?: ScrollBehavior;
+}
+
+export const useScrollIntoView = ({
+  offset = 48,
+  behavior = 'smooth',
+}: UseScrollIntoViewOptions = {}) => {
   const ref = useRef<HTMLLIElement>(null);
 
   const scrollToView = useCallback(() => {
-    if (!ref.current) return;
-    const container = ref.current.closest<HTMLElement>('[data-scroll-container]');
-    if (container) {
-      const itemTop = ref.current.offsetTop;
-      container.scrollTo({
-        top: itemTop - 8, // 可自訂偏移
-        behavior: 'smooth',
-      });
-    } else {
-      ref.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    }
-  }, []);
+    const element = ref.current;
+    if (!element) return;
 
-  return {
-    ref,
-    scrollToView,
-  };
+    const container = element.closest<HTMLElement>('[data-scroll-container]');
+    if (!container) return;
+
+    const containerRect = container.getBoundingClientRect();
+    const itemRect = element.getBoundingClientRect();
+
+    const distanceToTop = itemRect.top - containerRect.top;
+
+    const targetScrollTop = container.scrollTop + distanceToTop - offset;
+
+    container.scrollTo({ top: targetScrollTop, behavior });
+  }, [offset, behavior]);
+
+  return { ref, scrollToView };
 };
