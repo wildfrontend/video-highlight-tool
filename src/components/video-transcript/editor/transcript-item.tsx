@@ -1,12 +1,13 @@
 'use client';
 
-import { Box, ButtonBase, ListItem, Stack, Typography } from '@mui/material';
+import { Box, ButtonBase, ListItem, Typography } from '@mui/material';
 import { useRef } from 'react';
 
 import { useTranscriptStore } from '@/components/video-transcript/store/transcripts';
 import { TranscriptListItem } from '@/types/apis/videos/transcripts';
 
-import { useActiveHighlight } from '../hooks/active-highlight';
+import { useHighlightPlayer } from '../hooks/highlight-player';
+import { TranscriptRow } from './styles';
 
 const TranscriptItem: React.FC<{
   item: TranscriptListItem;
@@ -14,8 +15,13 @@ const TranscriptItem: React.FC<{
   segmentIndex: number;
 }> = ({ item, itemIndex, segmentIndex }) => {
   const { setHighlighted } = useTranscriptStore();
-  const { setHightlight } = useActiveHighlight();
+  const { playHighlight, isPlayingHighlight } = useHighlightPlayer();
+
   const itemRef = useRef<HTMLLIElement>(null);
+  const isPlaying = isPlayingHighlight({
+    start_seconds: item.start_seconds,
+    end_seconds: item.end_seconds,
+  });
 
   const scrollToTop = () => {
     if (itemRef.current) {
@@ -23,11 +29,10 @@ const TranscriptItem: React.FC<{
       if (container instanceof HTMLElement) {
         const itemTop = itemRef.current.offsetTop;
         container.scrollTo({
-          top: itemTop - 8, // 預留 8px 位移
+          top: itemTop - 8,
           behavior: 'smooth',
         });
       } else {
-        // 如果沒特別指定容器，就 fallback 用原本的方式
         itemRef.current.scrollIntoView({
           behavior: 'smooth',
           block: 'start',
@@ -44,30 +49,15 @@ const TranscriptItem: React.FC<{
         p: 0,
       }}
     >
-      <Stack
-        alignItems="flex-start"
-        direction="row"
-        sx={{
-          width: '100%',
-          backgroundColor: item.is_highlighted
-            ? 'rgba(25, 118, 210, 0.2)'
-            : 'inherit',
-          '&:hover': {
-            backgroundColor: item.is_highlighted
-              ? 'rgba(25, 118, 210, 0.2)'
-              : 'rgba(0, 0, 0, 0.04)',
-          },
-        }}
-      >
+      <TranscriptRow isPlaying={isPlaying} isHighlighted={item.is_highlighted}>
         {/* 左邊時間按鈕 */}
         <ButtonBase
           onClick={(e) => {
             e.stopPropagation();
-            setHightlight({
+            playHighlight({
               start_seconds: item.start_seconds,
               end_seconds: item.end_seconds,
             });
-
             scrollToTop();
           }}
           sx={{
@@ -109,7 +99,7 @@ const TranscriptItem: React.FC<{
             {item.captions}
           </Typography>
         </Box>
-      </Stack>
+      </TranscriptRow>
     </ListItem>
   );
 };

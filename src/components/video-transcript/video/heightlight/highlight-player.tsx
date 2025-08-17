@@ -2,12 +2,11 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { Chip, Grid, Stack } from '@mui/material';
 import { useEffect } from 'react';
 
-import { useActiveHighlightStore } from '@/components/video-transcript/store/active-highlight';
+import { useSeekHighlightStore } from '@/components/video-transcript/store/seek-highlight';
 import { useTranscriptStore } from '@/components/video-transcript/store/transcripts';
 import { useVideoControlStore } from '@/components/video-transcript/store/video-control';
 import { convertTimeline, formatTimebar } from '@/utils/video-transcript';
-
-import { useActiveHighlight } from '../../hooks/active-highlight';
+import { useHighlightPlayer } from '../../hooks/highlight-player';
 
 const VideoHighLightPlayerItem: React.FC<{
   item: {
@@ -15,11 +14,11 @@ const VideoHighLightPlayerItem: React.FC<{
     end_seconds: number;
   };
 }> = ({ item }) => {
-  const { isActive, setHightlight } = useActiveHighlight();
+  const { isPlayingHighlight, playHighlight } = useHighlightPlayer();
   return (
     <Chip
       color={
-        isActive({
+        isPlayingHighlight({
           start_seconds: item.start_seconds,
           end_seconds: item.end_seconds,
         })
@@ -29,7 +28,7 @@ const VideoHighLightPlayerItem: React.FC<{
       icon={<PlayArrowIcon />}
       label={`${formatTimebar(item.start_seconds)} - ${formatTimebar(item.end_seconds)}`}
       onClick={() => {
-        setHightlight({
+        playHighlight({
           start_seconds: item.start_seconds,
           end_seconds: item.end_seconds,
         });
@@ -43,17 +42,16 @@ const VideoHighLightPlayerItem: React.FC<{
 const VideoHighLightPlayer: React.FC = () => {
   const { transcript } = useTranscriptStore();
   const highlight = convertTimeline(transcript);
-  const { activeHighlight, setActiveHighlight } = useActiveHighlightStore();
+  const { seekHighlight, setSeekHighlight } = useSeekHighlightStore();
   const { proccess, setPlaying } = useVideoControlStore();
 
   useEffect(() => {
-    if (activeHighlight && proccess != null) {
-      if (proccess > activeHighlight.end_seconds) {
-        setPlaying(false);
-        setActiveHighlight(null);
+    if (seekHighlight && proccess != null) {
+      if (proccess > seekHighlight.end_seconds) {
+        setSeekHighlight(null);
       }
     }
-  }, [activeHighlight, proccess, setPlaying, setActiveHighlight]);
+  }, [seekHighlight, proccess, setPlaying, setSeekHighlight]);
 
   return (
     <Stack spacing={2}>
