@@ -1,15 +1,9 @@
 'use client';
 
-import {
-  Box,
-  Divider,
-  List,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, Divider, List, Stack, Typography } from '@mui/material';
 import { FC } from 'react';
 
-import { useTranscriptStore } from '@/stores/transcripts';
+import { useTranscriptStore } from '@/components/video-transcript/store/transcripts';
 
 import TranscriptItem from './transcript-item';
 
@@ -19,12 +13,11 @@ const TranscriptPanel: FC = () => {
     <Stack
       bgcolor="grey.50"
       divider={<Divider sx={{ my: 1 }} />}
-      sx={{
-        height: '100%',
-        overflow: 'hidden',
-      }}
+      height="100%"
+      overflow="hidden"
     >
       <Box
+        data-scroll-container
         sx={{
           overflowY: 'auto',
           height: '100%',
@@ -49,17 +42,18 @@ const TranscriptPanel: FC = () => {
           <Stack key={segIndex} sx={{ mb: 2 }}>
             {/* 章節標題 */}
             <Typography
+              fontWeight="bold"
+              position="sticky"
               sx={{
-                fontWeight: 'bold',
                 mb: 1,
                 pl: 1,
                 pt: 1,
-                position: 'sticky',
                 top: 0,
                 bgcolor: 'grey.50',
                 zIndex: 1,
                 py: 0.5,
               }}
+              top="0"
               variant="subtitle1"
             >
               {segment.title}

@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 
-import { useTranscriptStore } from '@/stores/transcripts';
+import { useTranscriptStore } from '@/components/video-transcript/store/transcripts';
 import { useVideoControlStore } from '@/components/video-transcript/store/video-control';
 import { convertTimeline } from '@/utils/video-transcript';
 

@@ -7,7 +7,7 @@ import { type FC, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import { uploadVideo } from '@/apis/videos/transcripts';
-import { useTranscriptStore } from '@/stores/transcripts';
+import { useTranscriptStore } from '@/components/video-transcript/store/transcripts';
 import { useVideoControlStore } from '@/components/video-transcript/store/video-control';
 
 const UploadVideo: FC = () => {
@@ -47,8 +47,8 @@ const UploadVideo: FC = () => {
     <Stack
       alignItems="center"
       height="100%"
-      spacing={2}
       justifyContent="center"
+      spacing={2}
     >
       <input {...getInputProps()} style={{ display: 'none' }} />
       <CloudUploadIcon fontSize="large" />
@@ -66,8 +66,8 @@ const UploadVideo: FC = () => {
         </Button>
         <Button
           disabled={isUploading || !file}
-          onClick={onUpload}
           loading={isUploading}
+          onClick={onUpload}
           variant="contained"
         >
           上傳

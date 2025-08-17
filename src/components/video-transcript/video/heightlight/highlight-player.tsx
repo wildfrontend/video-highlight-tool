@@ -3,11 +3,11 @@ import { Chip, Grid, Stack } from '@mui/material';
 import { useEffect } from 'react';
 
 import { useActiveHighlightStore } from '@/components/video-transcript/store/active-highlight';
-import { useTranscriptStore } from '@/stores/transcripts';
+import { useTranscriptStore } from '@/components/video-transcript/store/transcripts';
 import { useVideoControlStore } from '@/components/video-transcript/store/video-control';
-import { convertTimeline, formatTime } from '@/utils/video-transcript';
+import { convertTimeline, formatTimebar } from '@/utils/video-transcript';
 
-import { useVideoRef } from './video-ref';
+import { useActiveHighlight } from '../../hooks/active-highlight';
 
 const VideoHighLightPlayerItem: React.FC<{
   item: {
@@ -15,29 +15,24 @@ const VideoHighLightPlayerItem: React.FC<{
     end_seconds: number;
   };
 }> = ({ item }) => {
-  const videoRef = useVideoRef();
-  const { setActiveHighlight, activeHighlight } = useActiveHighlightStore();
-  const { setProccess, setPlaying } = useVideoControlStore();
-
-  const isActive =
-    activeHighlight?.start_seconds === item.start_seconds &&
-    activeHighlight?.end_seconds === item.end_seconds;
-
+  const { isActive, setHightlight } = useActiveHighlight();
   return (
     <Chip
-      color={isActive ? 'secondary' : 'primary'}
+      color={
+        isActive({
+          start_seconds: item.start_seconds,
+          end_seconds: item.end_seconds,
+        })
+          ? 'secondary'
+          : 'primary'
+      }
       icon={<PlayArrowIcon />}
-      label={`${formatTime(item.start_seconds)} - ${formatTime(item.end_seconds)}`}
+      label={`${formatTimebar(item.start_seconds)} - ${formatTimebar(item.end_seconds)}`}
       onClick={() => {
-        if (videoRef.current) {
-          videoRef.current.currentTime = item.start_seconds;
-        }
-        setActiveHighlight({
+        setHightlight({
           start_seconds: item.start_seconds,
           end_seconds: item.end_seconds,
         });
-        setProccess(item.start_seconds);
-        setPlaying(true);
       }}
       size="medium"
       variant="outlined"

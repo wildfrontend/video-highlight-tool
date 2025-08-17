@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface Highlight {
+export interface Highlight {
   start_seconds: number;
   end_seconds: number;
 }

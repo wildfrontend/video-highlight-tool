@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import mockData from '@/mocks/hank_outline_segments.json';
 import type { TranscriptSegment } from '@/types/apis/videos/transcripts';
 
 type TranscriptState = {

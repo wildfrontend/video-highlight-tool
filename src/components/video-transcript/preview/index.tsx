@@ -3,17 +3,12 @@
 import { useVideoControlStore } from '@/components/video-transcript/store/video-control';
 
 import UploadVideo from '../upload';
-import VideoPlayer from '../video';
-import VideoRefProvider from '../video/video-ref';
+import VideoPlayer from '../video/main';
 
 const PreviewArea: React.FC = () => {
   const { videoUrl } = useVideoControlStore();
   if (videoUrl) {
-    return (
-      <VideoRefProvider>
-        <VideoPlayer videoUrl={videoUrl} />
-      </VideoRefProvider>
-    );
+    return <VideoPlayer videoUrl={videoUrl} />;
   }
   return <UploadVideo />;
 };

@@ -1,47 +1,40 @@
 'use client';
 
 import { Box, ButtonBase, ListItem, Stack, Typography } from '@mui/material';
-import { useCallback, useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
-import { useTranscriptStore } from '@/stores/transcripts';
-import { useVideoControlStore } from '@/components/video-transcript/store/video-control';
+import { useTranscriptStore } from '@/components/video-transcript/store/transcripts';
 import { TranscriptListItem } from '@/types/apis/videos/transcripts';
+
+import { useActiveHighlight } from '../hooks/active-highlight';
 
 const TranscriptItem: React.FC<{
   item: TranscriptListItem;
   itemIndex: number;
   segmentIndex: number;
 }> = ({ item, itemIndex, segmentIndex }) => {
-  const { setProccess, proccess } = useVideoControlStore();
   const { setHighlighted } = useTranscriptStore();
+  const { setHightlight } = useActiveHighlight();
   const itemRef = useRef<HTMLLIElement>(null);
-  const lastScrollTime = useRef<number>(0);
 
-  // 檢查當前播放時間是否在這個字幕項目的時間範圍內
-  const isCurrentTime =
-    proccess >= item.start_seconds && proccess <= item.end_seconds;
-
-  // 當時間匹配時，自動滾動到該項目
-  const scrollToItem = useCallback(() => {
+  const scrollToTop = () => {
     if (itemRef.current) {
-      const now = Date.now();
-      // 避免過於頻繁的滾動（至少間隔 500ms）
-      if (now - lastScrollTime.current > 500) {
+      const container = itemRef.current.closest('[data-scroll-container]');
+      if (container instanceof HTMLElement) {
+        const itemTop = itemRef.current.offsetTop;
+        container.scrollTo({
+          top: itemTop - 8, // 預留 8px 位移
+          behavior: 'smooth',
+        });
+      } else {
+        // 如果沒特別指定容器，就 fallback 用原本的方式
         itemRef.current.scrollIntoView({
           behavior: 'smooth',
-          block: 'center',
-          inline: 'nearest',
+          block: 'start',
         });
-        lastScrollTime.current = now;
       }
     }
-  }, []);
-
-  useEffect(() => {
-    if (isCurrentTime) {
-      scrollToItem();
-    }
-  }, [isCurrentTime, scrollToItem]);
+  };
 
   return (
     <ListItem
@@ -49,14 +42,6 @@ const TranscriptItem: React.FC<{
       sx={{
         mb: 0.5,
         p: 0,
-        // 當時間匹配時，添加特殊樣式
-        ...(isCurrentTime && {
-          backgroundColor: 'rgba(255, 193, 7, 0.2)',
-          borderLeft: '4px solid #ffc107',
-          borderRadius: '4px',
-          transition: 'all 0.3s ease-in-out',
-          boxShadow: '0 2px 8px rgba(255, 193, 7, 0.3)',
-        }),
       }}
     >
       <Stack
@@ -78,14 +63,19 @@ const TranscriptItem: React.FC<{
         <ButtonBase
           onClick={(e) => {
             e.stopPropagation();
-            setProccess(item.start_seconds);
+            setHightlight({
+              start_seconds: item.start_seconds,
+              end_seconds: item.end_seconds,
+            });
+
+            scrollToTop();
           }}
           sx={{
             minWidth: 60,
             px: 1,
             py: 0.5,
             fontWeight: 500,
-            color: isCurrentTime ? '#ffc107' : 'primary.main',
+            color: 'primary.main',
             transition: 'color 0.3s ease-in-out',
           }}
         >
@@ -106,9 +96,9 @@ const TranscriptItem: React.FC<{
           }}
         >
           <Typography
-            color={isCurrentTime ? 'text.primary' : 'text.primary'}
+            color={'text.primary'}
             sx={{
-              fontWeight: isCurrentTime ? 600 : 400,
+              fontWeight: 400,
               transition: 'font-weight 0.3s ease-in-out',
             }}
             variant="body2"

@@ -18,7 +18,7 @@ export const convertTimeline = (
 };
 
 // 格式化時間
-export const formatTime = (seconds: number): string => {
+export const formatTimebar = (seconds: number): string => {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
   return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
@@ -27,6 +27,6 @@ export const formatTime = (seconds: number): string => {
 /**
  * 時間秒數最多小數點第二位
  */
-export const timeFixed2 = (value:number):number =>{
-  return +value.toFixed(2)
-}
+export const timeFixed2 = (value: number): number => {
+  return +value.toFixed(2);
+};
