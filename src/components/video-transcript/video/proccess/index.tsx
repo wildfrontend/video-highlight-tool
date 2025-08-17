@@ -2,6 +2,7 @@ import { Box, Stack } from '@mui/material';
 
 import VideoPlayButton from './player';
 import VideoProccessbar from './proccessbar';
+import Subtitles from './subtitles';
 import VideoTimebar from './timebar';
 
 const VideoProccessControl: React.FC = () => {
@@ -20,6 +21,7 @@ const VideoProccessControl: React.FC = () => {
       }}
     >
       <Stack useFlexGap>
+        <Subtitles />
         <VideoProccessbar />
         <Box alignItems="center" display="flex" justifyContent="space-between">
           <VideoPlayButton />
