@@ -1,12 +1,14 @@
 'use client';
 
 import { Box, ButtonBase, ListItem, Typography } from '@mui/material';
-import { useRef } from 'react';
+import { use, useEffect, useMemo } from 'react';
 
 import { useTranscriptStore } from '@/components/video-transcript/store/transcripts';
 import { TranscriptListItem } from '@/types/apis/videos/transcripts';
 
 import { useHighlightPlayer } from '../hooks/highlight-player';
+import { useScrollIntoView } from '../hooks/scroll-into-view';
+import { useVideoControlStore } from '../store/video-control';
 import { TranscriptRow } from './styles';
 
 const TranscriptItem: React.FC<{
@@ -16,30 +18,23 @@ const TranscriptItem: React.FC<{
 }> = ({ item, itemIndex, segmentIndex }) => {
   const { setHighlighted } = useTranscriptStore();
   const { playHighlight, isPlayingHighlight } = useHighlightPlayer();
+  const { proccess } = useVideoControlStore();
 
-  const itemRef = useRef<HTMLLIElement>(null);
   const isPlaying = isPlayingHighlight({
     start_seconds: item.start_seconds,
     end_seconds: item.end_seconds,
   });
+  const isActive = useMemo(() => {
+    return proccess >= item.start_seconds && proccess < item.end_seconds;
+  }, [proccess, item.start_seconds, item.end_seconds]);
 
-  const scrollToTop = () => {
-    if (itemRef.current) {
-      const container = itemRef.current.closest('[data-scroll-container]');
-      if (container instanceof HTMLElement) {
-        const itemTop = itemRef.current.offsetTop;
-        container.scrollTo({
-          top: itemTop - 8,
-          behavior: 'smooth',
-        });
-      } else {
-        itemRef.current.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-      }
+  const { ref: itemRef, scrollToView } = useScrollIntoView();
+
+  useEffect(() => {
+    if (isActive) {
+      scrollToView();
     }
-  };
+  }, [isActive, scrollToView]);
 
   return (
     <ListItem
@@ -58,7 +53,7 @@ const TranscriptItem: React.FC<{
               start_seconds: item.start_seconds,
               end_seconds: item.end_seconds,
             });
-            scrollToTop();
+            scrollToView();
           }}
           sx={{
             minWidth: 60,
