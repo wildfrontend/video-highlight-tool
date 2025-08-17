@@ -6,9 +6,10 @@ import { useSeekHighlightStore } from '@/components/video-transcript/store/seek-
 import { useTranscriptStore } from '@/components/video-transcript/store/transcripts';
 import { useVideoControlStore } from '@/components/video-transcript/store/video-control';
 import { convertTimeline, formatTimebar } from '@/utils/video-transcript';
+
 import { useHighlightPlayer } from '../../hooks/highlight-player';
 
-const VideoHighLightPlayerItem: React.FC<{
+const HighLightPlayerItem: React.FC<{
   item: {
     start_seconds: number;
     end_seconds: number;
@@ -39,7 +40,7 @@ const VideoHighLightPlayerItem: React.FC<{
   );
 };
 
-const VideoHighLightPlayer: React.FC = () => {
+const HighLightPlayer: React.FC = () => {
   const { transcript } = useTranscriptStore();
   const highlight = convertTimeline(transcript);
   const { seekHighlight, setSeekHighlight } = useSeekHighlightStore();
@@ -54,11 +55,19 @@ const VideoHighLightPlayer: React.FC = () => {
   }, [seekHighlight, proccess, setPlaying, setSeekHighlight]);
 
   return (
-    <Stack spacing={2}>
+    <Stack useFlexGap spacing={2}>
       <Grid container minHeight={60} spacing={1.5}>
         {highlight.map((item, index) => (
-          <Grid key={index} size={{ xs: 6, sm: 3 }}>
-            <VideoHighLightPlayerItem item={item} />
+          <Grid
+            key={index}
+            size={{ xs: 6, sm: 3 }}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <HighLightPlayerItem item={item} />
           </Grid>
         ))}
       </Grid>
@@ -66,4 +75,4 @@ const VideoHighLightPlayer: React.FC = () => {
   );
 };
 
-export default VideoHighLightPlayer;
+export default HighLightPlayer;

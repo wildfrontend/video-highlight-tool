@@ -5,7 +5,7 @@ import { useVideoControlStore } from '@/components/video-transcript/store/video-
 import { timeFixed2 } from '@/utils/video-transcript';
 
 import { useVideoRef } from '../../providers/video-ref';
-import VideoHighlightControl from '../heightlight/control';
+import HighlightControl from '../heightlight/control';
 import VideoProccessControl from '../proccess';
 
 const VideoPlayer: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
@@ -37,7 +37,7 @@ const VideoPlayer: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
         <VideoProccessControl />
       </Box>
       <Box>
-        <VideoHighlightControl />
+        <HighlightControl />
       </Box>
     </Stack>
   );

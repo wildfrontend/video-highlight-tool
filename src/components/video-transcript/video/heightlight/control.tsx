@@ -1,9 +1,9 @@
 import { Box, Stack, Typography } from '@mui/material';
 
-import VideoHightLightArea from './highlight-area';
-import VideoHighLightPlayer from './highlight-player';
+import HighLightPlayer from './highlight-player';
+import HightLightArea from './highlight-area';
 
-const VideoHighlightControl: React.FC = () => {
+const HighlightControl: React.FC = () => {
   return (
     <Stack spacing={2}>
       <Typography
@@ -16,14 +16,14 @@ const VideoHighlightControl: React.FC = () => {
       </Typography>
 
       <Box px={1}>
-        <VideoHightLightArea />
+        <HightLightArea />
       </Box>
 
       <Stack spacing={1}>
-        <VideoHighLightPlayer />
+        <HighLightPlayer />
       </Stack>
     </Stack>
   );
 };
 
-export default VideoHighlightControl;
+export default HighlightControl;
