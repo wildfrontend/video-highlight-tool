@@ -18,7 +18,6 @@ export const useTranscriptStore = create<TranscriptState>()(
     (set) => ({
       transcript: [],
       setTranscript: (data) => {
-        console.log('setTranscript', data);
         return set({ transcript: data });
       },
       setHighlighted: (
