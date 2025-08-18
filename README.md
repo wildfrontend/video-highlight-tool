@@ -2,11 +2,21 @@
 
 ---
 
-## 技術選型
+## 技術選型說明
 
-- **框架**：Next.js
-- **UI**：MUI
-- **狀態管理**：Zustand
+- **框架 (Framework)：Next.js**  
+  熟悉度較高，能夠快速開發並降低學習與實作成本。
+
+- **UI 元件庫 (UI Library)：MUI**  
+  提供完整且成熟的元件，設計一致性高，能加速介面開發。
+
+- **狀態管理 (State Management)：Zustand**  
+  由於需求涉及較多跨組件的資料處理，選擇輕量且易於開發的 Zustand 來取代較複雜的方案。
+
+- **工具函式庫 (Utilities)：**
+  - [`ahooks`](https://ahooks.js.org/)：透過 `useRequest` 簡化 API 狀態管理，減少重複撰寫資料請求邏輯。
+  - [`react-player`](https://github.com/cookpete/react-player)：快速整合影音播放，省去自行控制原生 `<video>` 的繁瑣程式碼。
+  - [`react-dropzone`](https://react-dropzone.js.org/)：提供檔案拖曳與上傳的狀態管理，降低開發難度。
 
 ---
 
@@ -37,8 +47,7 @@ npm run dev
 
 ### 建立字幕檔
 
-- 使用 faster-whisper 將影片轉為逐字稿
-- 也可使用線上轉檔工具，例如：[線上轉檔資源](https://yowlab.idv.tw/wordpress/?p=2962)
+- 研究得出使用 `faster-whisper` 並使用[線上轉檔工具](https://yowlab.idv.tw/wordpress/?p=2962)將影片轉為逐字稿
 - 產生的字幕檔為 `mock-video.srt`
 
 ### 產生 API 回傳資料
